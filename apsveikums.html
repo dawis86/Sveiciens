@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daudz laimes!</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial Black', sans-serif;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            /* Neļauj lietotājam nejauši iezīmēt tekstu spaidot */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .container { 
+            z-index: 10; 
+            cursor: pointer; 
+            padding: 20px;
+            width: 100%; /* Nodrošina, ka saturs neiziet ārpus malas */
+            box-sizing: border-box;
+        }
+        h1 { 
+            /* Izmantojam vw (viewport width) mērvienību - teksts pielāgosies ekrāna platumam */
+            font-size: clamp(2rem, 10vw, 4rem); 
+            text-shadow: 0 0 20px #ff0055; 
+            margin: 0; 
+            line-height: 1.2;
+        }
+        p { 
+            font-size: clamp(1rem, 4vw, 1.5rem); 
+            color: #aaa; 
+            margin-top: 10px;
+        }
+        .btn {
+            background: #ff0055;
+            border: none;
+            padding: 20px 40px; /* Lielāka poga, lai vieglāk trāpīt ar pirkstu */
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            margin-top: 30px;
+            box-shadow: 0 0 20px #ff0055;
+            transition: transform 0.1s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* Noņem zilo rāmīti uz telefoniem */
+        }
+        .btn:active { 
+            transform: scale(0.9); /* Poga "iespiežas" uz iekšu, kad nospiež */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" onclick="explode()">
+    <h1>DAUDZ LAIMES DZIMŠANAS DIENĀ!</h1>
+    <p>Brāli, uzspied uz ekrāna!</p>
+    <button class="btn">SPIED ŠEIT 🎂</button>
+</div>
+
+<script>
+    function explode() {
+        // Konfeti efekts
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#ff0055', '#00fbff', '#ffea00', '#9500ff']
+        });
+
+        // "Hakeru" stila efekts - salūts no malām
+        var duration = 2 * 1000;
+        var end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#ff0055', '#00fbff']
+            });
+            confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#ffea00', '#9500ff']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    }
+    
+    // Automātisks starts pēc ielādes
+    setTimeout(explode, 500);
+</script>
+
+</body>
+</html>
